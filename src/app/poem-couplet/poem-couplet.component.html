@@ -1,0 +1,55 @@
+<div class="container poem-form">
+    <div class="col-sm-12">
+        <h1 style="text-align: center;"><strong>Poetry Application</strong></h1>
+        <form [formGroup]="poetryForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+                <div class="col-sm-6">
+                    <mat-form-field class="col-sm-12">
+                        <input type="text" placeholder="Search Author ..."
+                            matInput 
+                            [formControl]="searchAuthor" 
+                            [matAutocomplete]="auto" class="form-control">  
+                        <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option *ngFor="let author of authors" [value]="author.author">
+                                {{ author.author }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-6">
+                    <mat-form-field class="col-sm-12">
+                        <input type="text" placeholder="Search Title ..."
+                            matInput 
+                            [formControl]="searchTitle" 
+                            [matAutocomplete]="autoTitle" class="form-control">  
+                        <mat-autocomplete #autoTitle="matAutocomplete">
+                            <mat-option *ngFor="let title of titles" [value]="title.title">
+                                {{ title.title }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-12">
+                    <input type="submit" class="btn btn-primary float-right"/>
+                </div>
+            </div>
+        </form>
+
+        <div>
+            <div *ngFor="let poem of poems">
+                <span *ngFor="let line of poem.lines">
+                    <p>
+                        {{ line }}
+                    </p>
+                </span>
+            </div>
+        </div>
+
+        <rhyme-suggestion 
+            *ngIf="searchText" 
+            [searchText]="searchText" 
+            [rhymeHints]="rhymeHints"
+            (onRhymeSelected)="onRhymeSelected($event)">
+        </rhyme-suggestion>
+    </div>
+</div>

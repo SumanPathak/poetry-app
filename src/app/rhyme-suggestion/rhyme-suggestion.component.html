@@ -1,0 +1,34 @@
+<div class="rhyme-panel" *ngIf="!searchError; else errorContent">
+  
+  <!-- Loading spinner -->
+  <span #loadingContent *ngIf="isLoading; else rhymeContent">
+    <span id="spinner-container">
+      <i class="fa fa-spin fa-cog fa-5x"></i>
+    </span>
+    <p id="loading-rhymes">
+      Loading rhymes for "{{searchText}}"
+    </p>
+  </span>
+
+  <!-- Rhyme suggestion list -->
+  <ng-template #rhymeContent>
+    <p id="rhymes-found" *ngIf="rhymeHints && rhymeHints.length > 0">
+      Rhymes with "{{searchText}}":
+    </p>
+    <p id="no-rhymes-found" *ngIf="rhymeHints && rhymeHints.length === 0">
+      <em>No rhymes found for "{{searchText}}"</em>
+    </p>
+    <ul id="rhyme-list">
+      <li (click)="onHintSelected(hint)" *ngFor="let hint of rhymeHints">{{hint}}</li>
+    </ul>
+  </ng-template>
+
+</div>
+
+<ng-template #errorContent>
+  <div class="rhyme-panel">
+    <p id="error">
+      <em>Currently unable to connect to rhyme server.</em>
+    </p>
+  </div>
+</ng-template>
