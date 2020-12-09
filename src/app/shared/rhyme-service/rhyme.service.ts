@@ -10,12 +10,11 @@ export class RhymeService {
     searchRhyme(word: string): Observable<string[]> {
         let rhymeUrl = `https://api.datamuse.com/words?rel_rhy=${word}`;
 
-        return this.httpService.get(rhymeUrl).pipe(map(response => {	
-            // let rhymes = response.json().map((rhyme) => {
-            //     return rhyme.word;
-            // });
-            let rhymes;
-            console.log('Rhymes', response);
+        return this.httpService.get(rhymeUrl).pipe(map(response => {
+            const res: any = response;	
+            let rhymes = res.map((rhyme) => {
+                return rhyme.word;
+            });
             return <string[]>rhymes;
         }));
     }

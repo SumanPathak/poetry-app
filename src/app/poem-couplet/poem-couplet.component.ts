@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { PoemCoupletService } from '../shared/poem-couplet/poem-couplet.service';
 import { RhymeService } from '../shared/rhyme-service/rhyme.service';
@@ -19,9 +19,10 @@ export class PoemCoupletComponent implements OnInit {
   poems = <any>[]; 
   authors = <any>[];
   titles = <any>[];
-  private rhymeHints: string[] = [];
+  public rhymeHints: string[] = [];
   public searchText: string = null;
   disabled: boolean = true;
+  @Input() coupletLines: string = '';
 
   constructor(
     private service: PoemCoupletService,
@@ -37,6 +38,7 @@ export class PoemCoupletComponent implements OnInit {
       this.service.searchAuthor(term.target.value).subscribe(
         data => {
           this.authors = data as any[];
+          this.searchText = term.target.value;
           this.getRhymes(term.target.value);
       })
     } else {
@@ -56,12 +58,12 @@ export class PoemCoupletComponent implements OnInit {
 
   onSubmit() {
     this.service.searchPoem(this.poetryForm).subscribe(data => {
-      console.log('Data', data);
       this.poems = data as any[];
     })
   }
 
   getRhymes(wordToRhyme: string): void {
+    this.searchText = wordToRhyme;
     this.rhymeService.searchRhyme(wordToRhyme)
       .subscribe((response) => {
         this.updateRhymeHints(response);
@@ -71,8 +73,8 @@ export class PoemCoupletComponent implements OnInit {
   updateRhymeHints(hints: string[]): void {
     this.rhymeHints = hints;
   }
-  
-  isAuthorSelected() {
-    return true;
+
+  onRhymeSelected(rhyme: string) {
+    this.coupletLines = this.coupletLines + ' ' + rhyme;
   }
 }

@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PoemCoupletComponent } from './poem-couplet/poem-couplet.component';
+import { RhymeSuggestionComponent } from './rhyme-suggestion/rhyme-suggestion.component';
 
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -16,7 +17,8 @@ import { RhymeService } from './shared/rhyme-service/rhyme.service';
 @NgModule({
   declarations: [
     AppComponent,
-    PoemCoupletComponent
+    PoemCoupletComponent,
+    RhymeSuggestionComponent
   ],
   imports: [
     BrowserModule,

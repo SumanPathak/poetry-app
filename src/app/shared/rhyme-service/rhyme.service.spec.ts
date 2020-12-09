@@ -1,9 +1,7 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
-
 import { RhymeService } from './rhyme.service';
 
-/* Stub out the required services for testing */
 const httpStub = {
 
 };

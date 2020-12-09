@@ -44,7 +44,7 @@ export class PoemCoupletService {
     } 
     
     searchPoem(form) {
-        var lines = this.httpService.get('https://poetrydb.org/author,title/' + form.searchAuthor + ';' + form.searchTitle)
+        var lines = this.httpService.get('https://poetrydb.org/author,title/' + form.value.searchAuthor + ';' + form.value.searchTitle)
         .pipe(
             debounceTime(1000),
             map(

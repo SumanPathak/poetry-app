@@ -34,22 +34,31 @@
                 </div>
             </div>
         </form>
+        <div class="col-sm-12 row poem-section">
+            <div class="col-sm-6">
+                <div *ngFor="let poem of poems">
+                    <span *ngFor="let line of poem.lines">
+                        <p>
+                            {{ line }}
+                        </p>
+                    </span>
+                </div>
+            </div>
 
-        <div>
-            <div *ngFor="let poem of poems">
-                <span *ngFor="let line of poem.lines">
-                    <p>
-                        {{ line }}
+            <div class="col-sm-6">
+                <rhyme-suggestion 
+                    *ngIf="searchText" 
+                    [searchText]="searchText" 
+                    [rhymeHints]="rhymeHints"
+                    (onRhymeSelected)="onRhymeSelected($event)">
+                </rhyme-suggestion>
+
+                <div id="printed-poem-container">
+                    <p class="printed">
+                      {{coupletLines}}
                     </p>
-                </span>
+                  </div>
             </div>
         </div>
-
-        <rhyme-suggestion 
-            *ngIf="searchText" 
-            [searchText]="searchText" 
-            [rhymeHints]="rhymeHints"
-            (onRhymeSelected)="onRhymeSelected($event)">
-        </rhyme-suggestion>
     </div>
 </div>

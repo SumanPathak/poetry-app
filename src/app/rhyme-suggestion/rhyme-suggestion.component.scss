@@ -1,19 +1,9 @@
 .rhyme-panel {
-  background: #323a40;
+  background: royalblue;
   color: #f9f6ee;
   width:100%;
   overflow-y:hidden;
   -webkit-overflow-scrolling: touch;
-}
-
-::-webkit-scrollbar {
-  -webkit-appearance: none;
-  height:8px;
-  background-color: rgba(0,0,0,.5);
-}
-::-webkit-scrollbar-thumb {
-  border-radius: 15px;
-  background-color: #eee;
 }
 
 #rhyme-list {
@@ -29,7 +19,7 @@
   display:inline-block;
   font-weight: normal;
   padding: 5px;
-  margin: 0 2px 1px 2px;
+  margin: 15px 2px 1px 5px;
   text-overflow: ellipsis;
   cursor: pointer;
 }

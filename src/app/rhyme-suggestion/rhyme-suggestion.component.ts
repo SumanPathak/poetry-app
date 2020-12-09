@@ -2,8 +2,6 @@ import {
   Component,
   OnInit,
   Input,
-  ViewChild,
-  ApplicationRef,
   Output,
   EventEmitter
 } from '@angular/core';
@@ -15,21 +13,19 @@ import {
 })
 
 export class RhymeSuggestionComponent implements OnInit {
-  @Input() searchText: string = null;
-  @Input() isLoading: boolean;
-  @Input() searchError: boolean;
+  @Input() searchText: string;
   @Input() rhymeHints: string[];
   @Output() onRhymeSelected: EventEmitter<string> = new EventEmitter<string>();
 
   selectedWord: string;
 
-  constructor(private applicationRef: ApplicationRef) { }
+  constructor() { }
 
   ngOnInit() { }
 
   onHintSelected(hint: string) {
     this.selectedWord = hint;
-    this.applicationRef.tick();
+    this.onRhymeSelected.emit(hint);
   }
 
 }
