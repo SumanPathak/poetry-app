@@ -18,7 +18,7 @@ export class PoemCoupletService {
                 (data: any) => {
                     this.getLastWordInPhrase(term)
                     return (
-                        data.length != 0 ? data as any[] : [{"author": "No Record Found"} as any]
+                        data.status != 404 && data.length != 0 ? data as any[] : [{"author": "No Author Found"} as any]
                     );
                 }
         ));
@@ -35,7 +35,7 @@ export class PoemCoupletService {
                 (data: any) => {
                     this.getLastWordInPhrase(term)
                     return (
-                        data.length != 0 ? data as any[] : [{"title": "No Record Found"} as any]
+                        data.status != 404 && data.length != 0 ? data as any[] : [{"title": "No Title Found"} as any]
                     );
                 }
         ));
@@ -49,9 +49,8 @@ export class PoemCoupletService {
             debounceTime(1000),
             map(
                 (data: any) => {
-                    console.log(data);
                     return (
-                        data.length != 0 ? data as any[] : [{"lines": "No Record Found"} as any]
+                        data.status != 404 && data.length != 0 ? data as any[] : [{"lines": ["No Poem Found"]} as any]
                     );
                 }
         ));

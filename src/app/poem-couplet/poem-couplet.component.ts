@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { PoemCoupletService } from '../shared/poem-couplet/poem-couplet.service';
 import { RhymeService } from '../shared/rhyme-service/rhyme.service';
 
@@ -10,56 +10,53 @@ import { RhymeService } from '../shared/rhyme-service/rhyme.service';
 })
 export class PoemCoupletComponent implements OnInit {
 
-  poetryForm : FormGroup;
-  searchAuthor : FormControl = new FormControl();
-  searchTitle : FormControl = new FormControl();
+  poetryForm : FormGroup = this.formBuilder.group({
+    searchAuthor:  new FormControl("", Validators.required),
+    searchTitle:  new FormControl({ value: "", disabled: true }, [
+      Validators.required
+    ])
+  });
   poems = <any>[]; 
   authors = <any>[];
   titles = <any>[];
   private rhymeHints: string[] = [];
   public searchText: string = null;
+  disabled: boolean = true;
 
   constructor(
     private service: PoemCoupletService,
     private rhymeService: RhymeService,
     private formBuilder: FormBuilder
-  ) { 
-    this.poetryForm = this.formBuilder.group({
-      searchAuthor: '',
-      searchTitle: ''
-    });
+  ) {}
+
+  ngOnInit() {}
+
+  onAuthorSelected(term) {
+    if (!!term.target && term.target.value != '') {
+      this.poetryForm.get('searchTitle').enable();
+      this.service.searchAuthor(term.target.value).subscribe(
+        data => {
+          this.authors = data as any[];
+          this.getRhymes(term.target.value);
+      })
+    } else {
+      this.poetryForm.get('searchTitle').disable();
+    }
   }
 
-  ngOnInit(): void {
-
-    this.searchAuthor.valueChanges.subscribe(
-      term => {
-        if (term != '') {
-          this.service.searchAuthor(term).subscribe(
-            data => {
-              this.authors = data as any[];
-              this.getRhymes(term);
-          })
-        }
-    });
-
-    this.searchTitle.valueChanges.subscribe(
-      term => {
-        if (term != '') {
-          this.service.searchTitle(term).subscribe(
-            data => {
-              this.titles = data as any[];
-              this.getRhymes(term);
-          })
-        }
-    })
+  onTitleSelected(term) {
+    if (!!term.target && term.target.value != '') {
+      this.service.searchTitle(term.target.value).subscribe(
+        data => {
+          this.titles = data as any[];
+          this.getRhymes(term.target.value);
+      })
+    }
   }
 
   onSubmit() {
-    this.poetryForm['searchAuthor'] = 'William Blake';
-    this.poetryForm['searchTitle'] = 'A poison tree';
-    console.log('Your order has been submitted', this.poetryForm);
     this.service.searchPoem(this.poetryForm).subscribe(data => {
+      console.log('Data', data);
       this.poems = data as any[];
     })
   }
@@ -74,5 +71,8 @@ export class PoemCoupletComponent implements OnInit {
   updateRhymeHints(hints: string[]): void {
     this.rhymeHints = hints;
   }
-
+  
+  isAuthorSelected() {
+    return true;
+  }
 }

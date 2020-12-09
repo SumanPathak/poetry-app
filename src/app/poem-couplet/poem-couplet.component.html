@@ -7,8 +7,8 @@
                     <mat-form-field class="col-sm-12">
                         <input type="text" placeholder="Search Author ..."
                             matInput 
-                            [formControl]="searchAuthor" 
-                            [matAutocomplete]="auto" class="form-control">  
+                            formControlName="searchAuthor" 
+                            [matAutocomplete]="auto" class="form-control" (input)="onAuthorSelected($event)">  
                         <mat-autocomplete #auto="matAutocomplete">
                             <mat-option *ngFor="let author of authors" [value]="author.author">
                                 {{ author.author }}
@@ -20,8 +20,8 @@
                     <mat-form-field class="col-sm-12">
                         <input type="text" placeholder="Search Title ..."
                             matInput 
-                            [formControl]="searchTitle" 
-                            [matAutocomplete]="autoTitle" class="form-control">  
+                            formControlName="searchTitle" 
+                            [matAutocomplete]="autoTitle" class="form-control" (input)="onTitleSelected($event)">  
                         <mat-autocomplete #autoTitle="matAutocomplete">
                             <mat-option *ngFor="let title of titles" [value]="title.title">
                                 {{ title.title }}
@@ -30,7 +30,7 @@
                     </mat-form-field>
                 </div>
                 <div class="col-sm-12">
-                    <input type="submit" class="btn btn-primary float-right"/>
+                    <button type="submit" class="btn btn-primary float-right">Search</button>
                 </div>
             </div>
         </form>
